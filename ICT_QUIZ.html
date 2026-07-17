@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICT Sectors, Career Paths, and Business Opportunities Exam</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 min-h-screen p-8 text-gray-800">
+
+    <div class="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow-md">
+        <h1 class="text-3xl font-bold text-center text-blue-700 mb-8">ICT Sectors, Career Paths, and Business Opportunities</h1>
+
+        <form id="quizForm" class="space-y-8">
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 p-6 bg-blue-50 rounded-lg border border-blue-200">
+                <div>
+                    <label for="studentName" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                    <input type="text" id="studentName" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                </div>
+                <div>
+                    <label for="studentGrade" class="block text-sm font-medium text-gray-700 mb-1">Grade Level</label>
+                    <input type="text" id="studentGrade" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                </div>
+                <div>
+                    <label for="studentSection" class="block text-sm font-medium text-gray-700 mb-1">Section</label>
+                    <input type="text" id="studentSection" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                </div>
+            </div>
+
+            <!-- Result Display (Hidden initially) -->
+            <div id="resultDisplay" class="hidden"></div>
+
+            <!-- Question 1 -->
+            <div class="p-6 bg-gray-50 rounded-lg border border-gray-200">
+                <p class="text-lg font-semibold mb-4">1. What is an ICT sector?</p>
+                <div class="space-y-2">
+                    <label class="flex items-center space-x-3 cursor-pointer p-2 hover:bg-gray-100 rounded">
+                        <input type="radio" name="q1" value="A" class="h-4 w-4 text-blue-600 focus:ring-blue-500">
+                        <span>A. A group that organizes school activities</span>
+                    </label>
+                    <label class="flex items-center space-x-3 cursor-pointer p-2 hover:bg-gray-100 rounded">
+                        <input type="radio" name="q1" value="B" class="h-4 w-4 text-blue-600 focus:ring-blue-500" required>
+                        <span>B. A field that provides technology services</span>
+                    </label>
+                    <label class="flex items-center space-x-3 cursor-pointer p-2 hover:bg-gray-100 rounded">
+                        <input type="radio" name="q1" value="C" class="h-4 w-4 text-blue-600 focus:ring-blue-500">
+                        <span>C. A program that teaches physical fitness</span>
+                    </label>
+                    <label class="flex items-center space-x-3 cursor-pointer p-2 hover:bg-gray-100 rounded">
+                        <input type="radio" name="q1" value="D" class="h-4 w-4 text-blue-600 focus:ring-blue-500">
+                        <span>D. A club that promotes outdoor activities</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Question 2 -->
+            <div class="p-6 bg-gray-50 rounded-lg border border-gray-200">
+                <p class="text-lg font-semibold mb-4">2. Which is an example of an ICT sector?</p>
+                <div class="space-y-2">
+                    <label class="flex items-center space-x-3 cursor-pointer p-2 hover:bg-gray-100 rounded">
+                        <input type="radio" name="q2" value="A" class="h-4 w-4 text-blue-600 focus:ring-blue-500">
+                        <span>A. Crop and animal production</span>
+                    </label>
+                    <label class="flex items-center space-x-3 cursor-pointer p-2 hover:bg-gray-100 rounded">
+                        <input type="radio" name="q2" value="B" class="h-4 w-4 text-blue-600 focus:ring-blue-500" required>
+                        <span>B. Hotel and tourism services</span>
+                    </label>
+                    <label class="flex items-center space-x-3 cursor-pointer p-2 hover:bg-gray-100 rounded">
+                        <input type="radio" name="q2" value="C" class="h-4 w-4 text-blue-600 focus:ring-blue-500">
+                        <span>C. Network and system security</span>
+                    </label>
+                    <label class="flex items-center space-x-3 cursor-pointer p-2 hover:bg-gray-100 rounded">
+                        <input type="radio" name="q2" value="D" class="h-4 w-4 text-blue-600 focus:ring-blue-500">
+                        <span>D. Building and road construction</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Question 3 -->
+            <div class="p-6 bg-gray-50 rounded-lg border border-gray-200">
+                <p class="text-lg font-semibold mb-4">3. What is the main purpose of computer networking?</p>
+                <div class="space-y-2">
+                    <label class="flex items-center space-x-3 cursor-pointer p-2 hover:bg-gray-100 rounded">
+                        <input type="radio" name="q3" value="A" class="h-4 w-4 text-blue-600 focus:ring-blue-500" required>
+                        <span>A. To connect devices and share information</span>
+                    </label>
+                    <label class="flex items-center space-x-3 cursor-pointer p-2 hover:bg-gray-100 rounded">
+                        <input type="radio" name="q3" value="B" class="h-4 w-4 text-blue-600 focus:ring-blue-500">
+                        <span>B. To design posters and edit photographs</span>
+                    </label>
+                    <label class="flex items-center space-x-3 cursor-pointer p-2 hover:bg-gray-100 rounded">
+                        <input type="radio" name="q3" value="C" class="h-4 w-4 text-blue-600 focus:ring-blue-500">
+                        <span>C. To protect files from harmful programs</span>
+                    </label>
+                    <label class="flex items-center space-x-3 cursor-pointer p-2 hover:bg-gray-100 rounded">
+                        <input type="radio" name="q3" value="D" class="h-4 w-4 text-blue-600 focus:ring-blue-500">
+                        <span>D. To develop applications for mobile devices</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Question 4 -->
+            <div class="p-6 bg-gray-50 rounded-lg border border-gray-200">
+                <p class="text-lg font-semibold mb-4">4. Which statement best describes cybersecurity?</p>
+                <div class="space-y-2">
+                    <label class="flex items-center space-x-3 cursor-pointer p-2 hover:bg-gray-100 rounded">
+                        <input type="radio" name="q4" value="A" class="h-4 w-4 text-blue-600 focus:ring-blue-500">
+                        <span>A. It creates digital pictures and animations.</span>
+                    </label>
+                    <label class="flex items-center space-x-3 cursor-pointer p-2 hover:bg-gray-100 rounded">
+                        <input type="radio" name="q4" value="B" class="h-4 w-4 text-blue-600 focus:ring-blue-500" required>
+                        <span>B. It repairs damaged computer components.</span>
+                    </label>
+                    <label class="flex items-center space-x-3 cursor-pointer p-2 hover:bg-gray-100 rounded">
+                        <input type="radio" name="q4" value="C" class="h-4 w-4 text-blue-600 focus:ring-blue-500">
+                        <span>C. It protects systems from digital threats.</span>
+                    </label>
+                    <label class="flex items-center space-x-3 cursor-pointer p-2 hover:bg-gray-100 rounded">
+                        <input type="radio" name="q4" value="D" class="h-4 w-4 text-blue-600 focus:ring-blue-500">
+                        <span>D. It connects devices through a network.</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Question 5 -->
+            <div class="p-6 bg-gray-50 rounded-lg border border-gray-200">
+                <p class="text-lg font-semibold mb-4">5. A student wants to develop mobile applications. Which ICT career should the student explore?</p>
+                <div class="space-y-2">
+                    <label class="flex items-center space-x-3 cursor-pointer p-2 hover:bg-gray-100 rounded">
+                        <input type="radio" name="q5" value="A" class="h-4 w-4 text-blue-600 focus:ring-blue-500">
+                        <span>A. Computer network technician</span>
+                    </label>
+                    <label class="flex items-center space-x-3 cursor-pointer p-2 hover:bg-gray-100 rounded">
+                        <input type="radio" name="q5" value="B" class="h-4 w-4 text-blue-600 focus:ring-blue-500" required>
+                        <span>B. Digital media designer</span>
+                    </label>
+                    <label class="flex items-center space-x-3 cursor-pointer p-2 hover:bg-gray-100 rounded">
+                        <input type="radio" name="q5" value="C" class="h-4 w-4 text-blue-600 focus:ring-blue-500">
+                        <span>C. Computer system programmer</span>
+                    </label>
+                    <label class="flex items-center space-x-3 cursor-pointer p-2 hover:bg-gray-100 rounded">
+                        <input type="radio" name="q5" value="D" class="h-4 w-4 text-blue-600 focus:ring-blue-500">
+                        <span>D. Technical support assistant</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Question 6 -->
+            <div class="p-6 bg-gray-50 rounded-lg border border-gray-200">
+                <p class="text-lg font-semibold mb-4">6. A small business needs someone to connect its computers to the internet. Who should it hire?</p>
+                <div class="space-y-2">
+                    <label class="flex items-center space-x-3 cursor-pointer p-2 hover:bg-gray-100 rounded">
+                        <input type="radio" name="q6" value="A" class="h-4 w-4 text-blue-600 focus:ring-blue-500" required>
+                        <span>A. A computer network technician</span>
+                    </label>
+                    <label class="flex items-center space-x-3 cursor-pointer p-2 hover:bg-gray-100 rounded">
+                        <input type="radio" name="q6" value="B" class="h-4 w-4 text-blue-600 focus:ring-blue-500">
+                        <span>B. A digital content creator</span>
+                    </label>
+                    <label class="flex items-center space-x-3 cursor-pointer p-2 hover:bg-gray-100 rounded">
+                        <input type="radio" name="q6" value="C" class="h-4 w-4 text-blue-600 focus:ring-blue-500">
+                        <span>C. A software application programmer</span>
+                    </label>
+                    <label class="flex items-center space-x-3 cursor-pointer p-2 hover:bg-gray-100 rounded">
+                        <input type="radio" name="q6" value="D" class="h-4 w-4 text-blue-600 focus:ring-blue-500">
+                        <span>D. A video production editor</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Question 7 -->
+            <div class="p-6 bg-gray-50 rounded-lg border border-gray-200">
+                <p class="text-lg font-semibold mb-4">7. How is an ICT career different from an ICT business opportunity?</p>
+                <div class="space-y-2">
+                    <label class="flex items-center space-x-3 cursor-pointer p-2 hover:bg-gray-100 rounded">
+                        <input type="radio" name="q7" value="A" class="h-4 w-4 text-blue-600 focus:ring-blue-500" required>
+                        <span>A. A career provides employment, while a business offers services.</span>
+                    </label>
+                    <label class="flex items-center space-x-3 cursor-pointer p-2 hover:bg-gray-100 rounded">
+                        <input type="radio" name="q7" value="B" class="h-4 w-4 text-blue-600 focus:ring-blue-500">
+                        <span>B. A career requires skills, while a business requires none.</span>
+                    </label>
+                    <label class="flex items-center space-x-3 cursor-pointer p-2 hover:bg-gray-100 rounded">
+                        <input type="radio" name="q7" value="C" class="h-4 w-4 text-blue-600 focus:ring-blue-500">
+                        <span>C. A career uses computers, while a business avoids technology.</span>
+                    </label>
+                    <label class="flex items-center space-x-3 cursor-pointer p-2 hover:bg-gray-100 rounded">
+                        <input type="radio" name="q7" value="D" class="h-4 w-4 text-blue-600 focus:ring-blue-500">
+                        <span>D. A career earns income, while a business provides no income.</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Question 8 -->
+            <div class="p-6 bg-gray-50 rounded-lg border border-gray-200">
+                <p class="text-lg font-semibold mb-4">8. Which activity is an example of an ICT business opportunity?</p>
+                <div class="space-y-2">
+                    <label class="flex items-center space-x-3 cursor-pointer p-2 hover:bg-gray-100 rounded">
+                        <input type="radio" name="q8" value="A" class="h-4 w-4 text-blue-600 focus:ring-blue-500">
+                        <span>A. Watching educational videos during free time</span>
+                    </label>
+                    <label class="flex items-center space-x-3 cursor-pointer p-2 hover:bg-gray-100 rounded">
+                        <input type="radio" name="q8" value="B" class="h-4 w-4 text-blue-600 focus:ring-blue-500" required>
+                        <span>B. Playing computer games with close friends</span>
+                    </label>
+                    <label class="flex items-center space-x-3 cursor-pointer p-2 hover:bg-gray-100 rounded">
+                        <input type="radio" name="q8" value="C" class="h-4 w-4 text-blue-600 focus:ring-blue-500">
+                        <span>C. Offering computer repair services to residents</span>
+                    </label>
+                    <label class="flex items-center space-x-3 cursor-pointer p-2 hover:bg-gray-100 rounded">
+                        <input type="radio" name="q8" value="D" class="h-4 w-4 text-blue-600 focus:ring-blue-500">
+                        <span>D. Reading printed books inside the library</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Question 9 -->
+            <div class="p-6 bg-gray-50 rounded-lg border border-gray-200">
+                <p class="text-lg font-semibold mb-4">9. Why is learning about different ICT sectors important to students?</p>
+                <div class="space-y-2">
+                    <label class="flex items-center space-x-3 cursor-pointer p-2 hover:bg-gray-100 rounded">
+                        <input type="radio" name="q9" value="A" class="h-4 w-4 text-blue-600 focus:ring-blue-500" required>
+                        <span>A. It helps them select suitable career opportunities.</span>
+                    </label>
+                    <label class="flex items-center space-x-3 cursor-pointer p-2 hover:bg-gray-100 rounded">
+                        <input type="radio" name="q9" value="B" class="h-4 w-4 text-blue-600 focus:ring-blue-500">
+                        <span>B. It allows them to avoid using modern technology.</span>
+                    </label>
+                    <label class="flex items-center space-x-3 cursor-pointer p-2 hover:bg-gray-100 rounded">
+                        <input type="radio" name="q9" value="C" class="h-4 w-4 text-blue-600 focus:ring-blue-500">
+                        <span>C. It encourages them to spend more time online.</span>
+                    </label>
+                    <label class="flex items-center space-x-3 cursor-pointer p-2 hover:bg-gray-100 rounded">
+                        <input type="radio" name="q9" value="D" class="h-4 w-4 text-blue-600 focus:ring-blue-500">
+                        <span>D. It teaches them to depend only on computers.</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Question 10 -->
+            <div class="p-6 bg-gray-50 rounded-lg border border-gray-200">
+                <p class="text-lg font-semibold mb-4">10. Which ICT business idea would best help students and community members?</p>
+                <div class="space-y-2">
+                    <label class="flex items-center space-x-3 cursor-pointer p-2 hover:bg-gray-100 rounded">
+                        <input type="radio" name="q10" value="A" class="h-4 w-4 text-blue-600 focus:ring-blue-500">
+                        <span>A. A store selling different school supplies</span>
+                    </label>
+                    <label class="flex items-center space-x-3 cursor-pointer p-2 hover:bg-gray-100 rounded">
+                        <input type="radio" name="q10" value="B" class="h-4 w-4 text-blue-600 focus:ring-blue-500" required>
+                        <span>B. A service offering printing and computer repair</span>
+                    </label>
+                    <label class="flex items-center space-x-3 cursor-pointer p-2 hover:bg-gray-100 rounded">
+                        <input type="radio" name="q10" value="C" class="h-4 w-4 text-blue-600 focus:ring-blue-500">
+                        <span>C. A shop providing snacks and cold drinks</span>
+                    </label>
+                    <label class="flex items-center space-x-3 cursor-pointer p-2 hover:bg-gray-100 rounded">
+                        <input type="radio" name="q10" value="D" class="h-4 w-4 text-blue-600 focus:ring-blue-500">
+                        <span>D. A business growing vegetables and fruit trees</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="flex justify-end pt-6 border-t border-gray-200">
+                <button type="submit" id="submitBtn" class="bg-blue-600 text-white font-semibold py-3 px-8 rounded-md hover:bg-blue-700 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 flex items-center">
+                    <span id="submitText">Submit Exam</span>
+                    <!-- Loading spinner added -->
+                    <div id="loadingSpinner" class="hidden ml-2 border-2 border-white border-t-transparent rounded-full w-5 h-5 animate-spin"></div>
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const answerKey = {
+            q1: 'B',
+            q2: 'C',
+            q3: 'A',
+            q4: 'C',
+            q5: 'C',
+            q6: 'A',
+            q7: 'A',
+            q8: 'C',
+            q9: 'A',
+            q10: 'B'
+        };
+
+        document.getElementById('quizForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            let score = 0;
+            const total = 10;
+            const studentAnswers = {};
+            
+            // Reset previous styling
+            document.querySelectorAll('.question-block').forEach(block => {
+                block.classList.remove('bg-green-50', 'bg-red-50', 'border-green-500', 'border-red-500');
+                block.classList.add('bg-gray-50', 'border-gray-200');
+                
+                // Remove correct answer highlights if previously added
+                const correctLabels = block.querySelectorAll('.correct-highlight');
+                correctLabels.forEach(label => {
+                    label.classList.remove('font-bold', 'text-green-700', 'correct-highlight');
+                    label.innerHTML = label.innerHTML.replace(' <span class="text-sm italic">(Correct Answer)</span>', '');
+                });
+            });
+
+            // Grade each question
+            for (let i = 1; i <= total; i++) {
+                const qName = 'q' + i;
+                const selected = document.querySelector(`input[name="${qName}"]:checked`);
+                
+                // Store the student's answer for this question
+                studentAnswers[qName] = selected ? selected.value : 'Unanswered';
+                
+                // Find the parent div of the question
+                const inputs = document.querySelectorAll(`input[name="${qName}"]`);
+                if (inputs.length > 0) {
+                    const block = inputs[0].closest('div.p-6');
+                    block.classList.add('question-block'); // tag it for easier reset next time
+                    block.classList.remove('bg-gray-50', 'border-gray-200');
+                    
+                    if (selected && selected.value === answerKey[qName]) {
+                        score++;
+                        block.classList.add('bg-green-50', 'border-green-500');
+                    } else {
+                        block.classList.add('bg-red-50', 'border-red-500');
+                        // Highlight the correct answer text
+                        inputs.forEach(input => {
+                            if (input.value === answerKey[qName]) {
+                                const labelSpan = input.nextElementSibling;
+                                labelSpan.classList.add('font-bold', 'text-green-700', 'correct-highlight');
+                                if (!labelSpan.innerHTML.includes('(Correct Answer)')) {
+                                    labelSpan.innerHTML += ' <span class="text-sm italic">(Correct Answer)</span>';
+                                }
+                            }
+                        });
+                    }
+                }
+            }
+
+            // Display results
+            const resultDisplay = document.getElementById('resultDisplay');
+            const percentage = (score / total) * 100;
+            
+            // Determine result color
+            let resultClass = percentage >= 70 ? 'bg-green-100 border-green-500 text-green-800' : 'bg-yellow-100 border-yellow-500 text-yellow-800';
+            if (percentage < 50) resultClass = 'bg-red-100 border-red-500 text-red-800';
+            
+            resultDisplay.className = `p-6 text-center rounded-lg border-2 mb-8 ${resultClass}`;
+            resultDisplay.innerHTML = `
+                <h2 class="text-3xl font-bold mb-2">Score: ${score} / ${total}</h2>
+                <p class="text-lg">Thank you, <strong>${document.getElementById('studentName').value}</strong> (Grade ${document.getElementById('studentGrade').value} - ${document.getElementById('studentSection').value}). Your exam has been graded.</p>
+            `;
+            
+            // Scroll to top to see results
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // Disable form inputs to prevent changing answers
+            const allInputs = document.querySelectorAll('input');
+            allInputs.forEach(input => input.disabled = true);
+            
+            // Update submit button UI state
+            const submitBtn = document.getElementById('submitBtn');
+            const submitText = document.getElementById('submitText');
+            const spinner = document.getElementById('loadingSpinner');
+            
+            submitBtn.disabled = true;
+            submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
+            submitText.innerText = 'Sending Results...';
+            spinner.classList.remove('hidden');
+
+            // Prepare data for Google Sheets
+            const resultData = {
+                name: document.getElementById('studentName').value,
+                grade: document.getElementById('studentGrade').value,
+                section: document.getElementById('studentSection').value,
+                score: score,
+                total: total,
+                topic: "ICT Sectors, Career Paths, and Business Opportunities",
+                q1: studentAnswers.q1,
+                q2: studentAnswers.q2,
+                q3: studentAnswers.q3,
+                q4: studentAnswers.q4,
+                q5: studentAnswers.q5,
+                q6: studentAnswers.q6,
+                q7: studentAnswers.q7,
+                q8: studentAnswers.q8,
+                q9: studentAnswers.q9,
+                q10: studentAnswers.q10
+            };
+
+            // ⚠️ REPLACE THIS URL with your deployed Google Apps Script Web App URL
+            const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxBR_3G9C5Zm7B3efzcz0plqRL2xXlVzOtTVSwIgVPzLQUpViNfjFTkKaEggnFJ3ik3jg/exec'; 
+
+            if (WEB_APP_URL !== 'YOUR_WEB_APP_URL_HERE') {
+                // Using text/plain prevents CORS preflight issues
+                fetch(WEB_APP_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'text/plain;charset=utf-8',
+                    },
+                    body: JSON.stringify(resultData)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        submitText.innerText = 'Results Sent Successfully!';
+                        spinner.classList.add('hidden');
+                        resultDisplay.innerHTML += `<div class="mt-4 text-green-900 font-bold p-3 bg-green-200/50 rounded inline-block shadow-sm">✅ Results successfully saved to spreadsheet!</div>`;
+                    } else {
+                        throw new Error(data.message);
+                    }
+                })
+                .catch((error) => {
+                    submitText.innerText = 'Error Sending Results';
+                    spinner.classList.add('hidden');
+                    submitBtn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+                    submitBtn.classList.add('bg-red-600', 'hover:bg-red-700');
+                    console.error('Error:', error);
+                    resultDisplay.innerHTML += `<div class="mt-4 text-red-900 font-bold p-3 bg-red-200/50 rounded inline-block shadow-sm">❌ Failed to send results to the spreadsheet. Check console.</div>`;
+                });
+            } else {
+                submitText.innerText = 'Exam Graded (Not Sent: URL Missing)';
+                spinner.classList.add('hidden');
+                console.warn("Please add your Google Apps Script Web App URL in the HTML code to enable saving to Google Sheets.");
+            }
+        });
+    </script>
+</body>
+</html>
