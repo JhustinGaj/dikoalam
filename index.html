@@ -3,640 +3,225 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grade 7 Financial Math Explorer</title>
-    
-    <!-- Tailwind CSS for styling -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- FontAwesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Chart.js for the Interest Graph -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+    <title>Local Device Diagnostics</title>
     <style>
-        /* Custom animations to replicate the React framer-motion/tailwind-animate feel */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-        body { font-family: 'Inter', sans-serif; }
-        
-        .fade-in-zoom {
-            animation: fadeInZoom 0.5s ease-out forwards;
-        }
-        
-        @keyframes fadeInZoom {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
+        :root {
+            --bg-primary: #0f172a;
+            --bg-card: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-green: #10b981;
+            --accent-blue: #3b82f6;
+            --accent-purple: #a855f7;
+            --border-color: #334155;
         }
 
-        .tab-btn { transition: all 0.3s ease; }
-        .tab-btn.active { transform: scale(1.02); }
-        
-        /* Hide modules by default */
-        .module-content { display: none; }
-        .module-content.active { display: block; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+        }
+
+        header {
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin: 0 0 8px 0;
+            letter-spacing: -0.5px;
+        }
+
+        .timestamp {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .value {
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+            font-size: 16px;
+            font-weight: 600;
+            word-break: break-all;
+        }
+
+        .identity-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .battery-container {
+            margin-top: 15px;
+        }
+
+        .progress-bar-bg {
+            background-color: var(--border-color);
+            height: 10px;
+            width: 100%;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            background-color: var(--accent-green);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease-in-out;
+        }
+
+        .site-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 8px 0 0 0;
+        }
+
+        .site-item {
+            font-size: 14px;
+            padding: 10px 12px;
+            background-color: rgba(255, 255, 255, 0.03);
+            border-left: 3px solid var(--accent-purple);
+            margin-bottom: 8px;
+            border-radius: 0 6px 6px 0;
+            color: #e2e8f0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
     </style>
 </head>
-<body class="min-h-screen bg-slate-50 flex flex-col text-slate-800">
+<body>
 
-    <!-- Header with Required Branding -->
-    <header class="bg-slate-900 text-white p-5 shadow-lg border-b-4 border-indigo-500">
-        <div class="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
-            <div>
-                <h1 class="text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-300">
-                    PROJECT RAI
-                </h1>
-                <p class="text-sm text-indigo-200 italic font-medium tracking-wide">
-                    Rapid Advancement in Instruction
-                </p>
-            </div>
-            <div class="flex items-center bg-slate-800 px-4 py-2 rounded-full border border-slate-700">
-                <i class="fa-solid fa-calculator text-indigo-400 mr-2"></i>
-                <span class="font-semibold text-slate-200">Grade 7 Financial Math</span>
-            </div>
-        </div>
-    </header>
+    <div class="container">
+        <header>
+            <h1>System Diagnostics Console</h1>
+            <div class="timestamp">Last Hardware Scan: <span id="time-stamp">Loading...</span></div>
+        </header>
 
-    <!-- Main Content Area -->
-    <main class="flex-grow max-w-6xl mx-auto w-full p-4 sm:p-6 lg:p-8">
-        
-        <!-- Navigation Tabs -->
-        <div class="flex flex-wrap gap-2 mb-8 bg-white p-2 rounded-2xl shadow-sm border border-slate-200">
-            <button onclick="switchTab('discount')" id="tab-discount" class="tab-btn flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-bold border-2 bg-rose-500 text-white shadow-rose-200 border-transparent shadow-lg active">
-                <i class="fa-solid fa-bag-shopping"></i>
-                <span class="hidden sm:inline">Discounts & Sales</span>
-            </button>
-            <button onclick="switchTab('commission')" id="tab-commission" class="tab-btn flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-bold border-2 bg-amber-100 text-amber-700 border-amber-300 hover:bg-opacity-70">
-                <i class="fa-solid fa-file-invoice-dollar"></i>
-                <span class="hidden sm:inline">Commission & Tax</span>
-            </button>
-            <button onclick="switchTab('interest')" id="tab-interest" class="tab-btn flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-bold border-2 bg-emerald-100 text-emerald-700 border-emerald-300 hover:bg-opacity-70">
-                <i class="fa-solid fa-piggy-bank"></i>
-                <span class="hidden sm:inline">Simple Interest</span>
-            </button>
+        <!-- System Identity Profile Component -->
+        <div class="card">
+            <div class="identity-grid">
+                <div>
+                    <div class="label">PC Name / Host</div>
+                    <div class="value" id="pc-name" style="color: var(--accent-blue);">Fetching...</div>
+                </div>
+                <div>
+                    <div class="label">Current User</div>
+                    <div class="value" id="user-name" style="color: var(--accent-blue);">Fetching...</div>
+                </div>
+            </div>
+            <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 15px 0;">
+            <div class="label">Hardware UUID</div>
+            <div class="value" id="machine-id" style="font-size: 14px; color: var(--text-muted);">Fetching ID...</div>
         </div>
 
-        <!-- Dynamic Module Rendering Container -->
-        <div class="bg-white rounded-3xl shadow-xl border border-slate-100 overflow-hidden">
+        <!-- Battery Metrics Output -->
+        <div class="card">
+            <div class="label">Power & Battery Profile</div>
+            <div class="value">
+                <span id="battery-level">--</span> 
+                <span id="battery-status" style="font-size: 14px; color: var(--text-muted); font-weight: normal; margin-left: 10px;">(--)</span>
+            </div>
             
-            <!-- DISCOUNT MODULE -->
-            <div id="module-discount" class="module-content active fade-in-zoom">
-                <div class="bg-gradient-to-r from-rose-500 to-pink-600 p-8 text-white">
-                    <h2 class="text-3xl font-bold flex items-center gap-3">
-                        <i class="fa-solid fa-bag-shopping text-3xl"></i>
-                        Discounts & Sale Prices
-                    </h2>
-                    <p class="mt-2 text-rose-100 text-lg">
-                        Learn how to calculate savings when items go on sale!
-                    </p>
-                </div>
-
-                <div class="p-8 grid md:grid-cols-2 gap-12">
-                    <!-- Interactive Simulator -->
-                    <div class="space-y-8">
-                        <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 shadow-inner">
-                            <h3 class="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2">
-                                <i class="fa-solid fa-calculator text-rose-500"></i>
-                                Interactive Store Simulator
-                            </h3>
-                            
-                            <div class="space-y-6">
-                                <div>
-                                    <label class="block text-sm font-bold text-slate-600 mb-2">Original Price (₱)</label>
-                                    <input type="number" id="discount-orig-input" value="1500" min="0" class="w-full text-2xl p-3 border-2 border-slate-300 rounded-xl focus:border-rose-500 focus:ring-rose-500 outline-none transition-all">
-                                </div>
-
-                                <div>
-                                    <label class="flex justify-between text-sm font-bold text-slate-600 mb-2">
-                                        <span>Discount Percentage</span>
-                                        <span class="text-rose-600 font-extrabold"><span id="discount-pct-display">25</span>%</span>
-                                    </label>
-                                    <input type="range" id="discount-pct-input" min="0" max="100" value="25" class="w-full h-3 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-rose-500">
-                                    <div class="flex justify-between text-xs text-slate-400 mt-1 font-semibold">
-                                        <span>0%</span>
-                                        <span>50%</span>
-                                        <span>100%</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Visual Receipt output -->
-                    <div class="flex flex-col justify-center">
-                        <div class="bg-white border-4 border-dashed border-slate-200 rounded-2xl p-8 relative shadow-xl transform rotate-1 hover:rotate-0 transition-transform">
-                            <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-rose-500 text-white px-4 py-1 rounded-full text-sm font-bold tracking-widest shadow-md">
-                                RECEIPT
-                            </div>
-                            
-                            <div class="space-y-4 font-mono text-lg mt-4">
-                                <div class="flex justify-between text-slate-500">
-                                    <span>Original Price:</span>
-                                    <span id="receipt-orig">₱1500.00</span>
-                                </div>
-                                <div class="flex justify-between text-rose-500 font-bold">
-                                    <span>Discount (<span id="receipt-pct">25</span>%):</span>
-                                    <span id="receipt-disc-amt">- ₱375.00</span>
-                                </div>
-                                <div class="border-t-2 border-slate-200 my-4 pt-4 flex justify-between text-2xl font-black text-slate-800">
-                                    <span>Sale Price:</span>
-                                    <span id="receipt-sale">₱1125.00</span>
-                                </div>
-                            </div>
-
-                            <div class="mt-8 bg-rose-50 text-rose-800 p-4 rounded-xl border border-rose-100 text-sm">
-                                <p class="font-bold mb-1">How it works:</p>
-                                <p>1. Find the discount amount: <br/><span class="font-mono bg-white px-2 py-1 rounded border">₱<span id="expl-orig-1">1500</span> × <span id="expl-dec">0.25</span> = ₱<span id="expl-disc">375.00</span></span></p>
-                                <p class="mt-2">2. Subtract from original: <br/><span class="font-mono bg-white px-2 py-1 rounded border">₱<span id="expl-orig-2">1500</span> - ₱<span id="expl-disc-2">375.00</span> = ₱<span id="expl-sale">1125.00</span></span></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Mini Quiz Section -->
-                <div class="border-t border-slate-200 p-8 bg-slate-50 rounded-b-3xl">
-                    <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
-                        <span class="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-sm">Knowledge Check</span>
-                    </h3>
-                    <p class="text-slate-700 text-lg mb-6 font-medium">A pair of shoes costs ₱4,000. It is on sale for 20% off. What is the sale price?</p>
-                    
-                    <div class="grid sm:grid-cols-2 gap-4 mb-6" id="quiz-discount-options">
-                        <button onclick="handleQuiz('discount', '₱800', false)" class="quiz-btn p-4 rounded-xl font-bold transition-all text-left flex justify-between items-center border-2 border-slate-200 bg-white hover:border-indigo-400 hover:bg-indigo-50 text-slate-700">₱800 <i class="icon hidden"></i></button>
-                        <button onclick="handleQuiz('discount', '₱3,000', false)" class="quiz-btn p-4 rounded-xl font-bold transition-all text-left flex justify-between items-center border-2 border-slate-200 bg-white hover:border-indigo-400 hover:bg-indigo-50 text-slate-700">₱3,000 <i class="icon hidden"></i></button>
-                        <button onclick="handleQuiz('discount', '₱3,200', true)" class="quiz-btn p-4 rounded-xl font-bold transition-all text-left flex justify-between items-center border-2 border-slate-200 bg-white hover:border-indigo-400 hover:bg-indigo-50 text-slate-700">₱3,200 <i class="icon hidden"></i></button>
-                        <button onclick="handleQuiz('discount', '₱4,800', false)" class="quiz-btn p-4 rounded-xl font-bold transition-all text-left flex justify-between items-center border-2 border-slate-200 bg-white hover:border-indigo-400 hover:bg-indigo-50 text-slate-700">₱4,800 <i class="icon hidden"></i></button>
-                    </div>
-                    
-                    <div id="quiz-discount-feedback" class="hidden p-4 rounded-xl border">
-                        <p class="font-bold mb-1" id="quiz-discount-title"></p>
-                        <p>20% of ₱4,000 is ₱800 (the discount). ₱4,000 - ₱800 = ₱3,200.</p>
-                        <button onclick="resetQuiz('discount')" class="mt-3 text-sm font-bold underline opacity-80 hover:opacity-100">Try Again</button>
-                    </div>
+            <div class="battery-container" id="battery-track" style="display: none;">
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" id="battery-fill"></div>
                 </div>
             </div>
-
-            <!-- COMMISSION MODULE -->
-            <div id="module-commission" class="module-content fade-in-zoom">
-                <div class="bg-gradient-to-r from-amber-500 to-orange-500 p-8 text-white">
-                    <h2 class="text-3xl font-bold flex items-center gap-3">
-                        <i class="fa-solid fa-file-invoice-dollar text-3xl"></i>
-                        Commission & Sales Tax
-                    </h2>
-                    <p class="mt-2 text-amber-100 text-lg">
-                        Explore how salespeople earn money and how taxes affect final prices!
-                    </p>
-                </div>
-
-                <div class="p-8 grid md:grid-cols-2 gap-12">
-                    <div class="space-y-6">
-                        <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 shadow-inner">
-                            <h3 class="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2">
-                                <i class="fa-solid fa-arrow-trend-up text-amber-500"></i>
-                                The Sales Scenario
-                            </h3>
-                            
-                            <div class="space-y-5">
-                                <div>
-                                    <label class="block text-sm font-bold text-slate-600 mb-1">Selling Price of Item (₱)</label>
-                                    <input type="number" id="comm-price-input" value="25000" min="0" class="w-full text-xl p-3 border-2 border-slate-300 rounded-xl focus:border-amber-500 outline-none">
-                                </div>
-
-                                <div>
-                                    <label class="flex justify-between text-sm font-bold text-slate-600 mb-1">
-                                        <span>Commission Rate (Agent's Cut)</span>
-                                        <span class="text-amber-600 font-extrabold"><span id="comm-rate-display">5</span>%</span>
-                                    </label>
-                                    <input type="range" id="comm-rate-input" min="0" max="30" step="1" value="5" class="w-full h-3 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-amber-500">
-                                </div>
-
-                                <div>
-                                    <label class="flex justify-between text-sm font-bold text-slate-600 mb-1">
-                                        <span>Sales Tax Rate (VAT)</span>
-                                        <span class="text-red-500 font-extrabold"><span id="comm-tax-display">12</span>%</span>
-                                    </label>
-                                    <input type="range" id="comm-tax-input" min="0" max="15" step="0.5" value="12" class="w-full h-3 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-red-500">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Visual Outputs for Agent vs Customer -->
-                    <div class="flex flex-col gap-6">
-                        <!-- Agent's Box -->
-                        <div class="bg-amber-50 p-6 rounded-2xl border-2 border-amber-200 relative overflow-hidden shadow-md">
-                            <div class="absolute -right-4 -top-4 opacity-10">
-                                <i class="fa-solid fa-file-invoice-dollar text-9xl"></i>
-                            </div>
-                            <h4 class="text-amber-800 font-bold mb-2">What the Sales Agent Earns</h4>
-                            <div class="text-4xl font-black text-amber-600" id="comm-earned-display">
-                                ₱1250.00
-                            </div>
-                            <p class="text-sm text-amber-700 mt-2 font-medium">
-                                Formula: ₱<span id="comm-formula-price">25000</span> × <span id="comm-formula-rate">0.05</span>
-                            </p>
-                        </div>
-
-                        <!-- Customer's Box -->
-                        <div class="bg-red-50 p-6 rounded-2xl border-2 border-red-200 relative overflow-hidden shadow-md">
-                            <div class="absolute -right-4 -top-4 opacity-10">
-                                <i class="fa-solid fa-receipt text-9xl"></i>
-                            </div>
-                            <h4 class="text-red-800 font-bold mb-2">What the Customer Pays</h4>
-                            <div class="space-y-1 mb-3 text-red-900 font-mono">
-                                <div class="flex justify-between">
-                                    <span>Price:</span> <span id="cust-price">₱25000.00</span>
-                                </div>
-                                <div class="flex justify-between border-b border-red-200 pb-1">
-                                    <span>Tax (<span id="cust-tax-pct">12</span>%):</span> <span id="cust-tax-amt">+ ₱3000.00</span>
-                                </div>
-                            </div>
-                            <div class="text-4xl font-black text-red-600" id="cust-total">
-                                ₱28000.00
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Mini Quiz Section -->
-                <div class="border-t border-slate-200 p-8 bg-slate-50 rounded-b-3xl">
-                    <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
-                        <span class="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-sm">Knowledge Check</span>
-                    </h3>
-                    <p class="text-slate-700 text-lg mb-6 font-medium">A real estate agent sells a house for ₱2,500,000 and earns a 3% commission. How much money did the agent make?</p>
-                    
-                    <div class="grid sm:grid-cols-2 gap-4 mb-6" id="quiz-commission-options">
-                        <button onclick="handleQuiz('commission', '₱75,000', true)" class="quiz-btn p-4 rounded-xl font-bold transition-all text-left flex justify-between items-center border-2 border-slate-200 bg-white hover:border-indigo-400 hover:bg-indigo-50 text-slate-700">₱75,000 <i class="icon hidden"></i></button>
-                        <button onclick="handleQuiz('commission', '₱750,000', false)" class="quiz-btn p-4 rounded-xl font-bold transition-all text-left flex justify-between items-center border-2 border-slate-200 bg-white hover:border-indigo-400 hover:bg-indigo-50 text-slate-700">₱750,000 <i class="icon hidden"></i></button>
-                        <button onclick="handleQuiz('commission', '₱7,500', false)" class="quiz-btn p-4 rounded-xl font-bold transition-all text-left flex justify-between items-center border-2 border-slate-200 bg-white hover:border-indigo-400 hover:bg-indigo-50 text-slate-700">₱7,500 <i class="icon hidden"></i></button>
-                        <button onclick="handleQuiz('commission', '₱2,575,000', false)" class="quiz-btn p-4 rounded-xl font-bold transition-all text-left flex justify-between items-center border-2 border-slate-200 bg-white hover:border-indigo-400 hover:bg-indigo-50 text-slate-700">₱2,575,000 <i class="icon hidden"></i></button>
-                    </div>
-                    
-                    <div id="quiz-commission-feedback" class="hidden p-4 rounded-xl border">
-                        <p class="font-bold mb-1" id="quiz-commission-title"></p>
-                        <p>Commission = Price × Rate. 3% as a decimal is 0.03. ₱2,500,000 × 0.03 = ₱75,000.</p>
-                        <button onclick="resetQuiz('commission')" class="mt-3 text-sm font-bold underline opacity-80 hover:opacity-100">Try Again</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- INTEREST MODULE -->
-            <div id="module-interest" class="module-content fade-in-zoom">
-                <div class="bg-gradient-to-r from-emerald-500 to-teal-600 p-8 text-white">
-                    <h2 class="text-3xl font-bold flex items-center gap-3">
-                        <i class="fa-solid fa-piggy-bank text-3xl"></i>
-                        Simple Interest
-                    </h2>
-                    <p class="mt-2 text-emerald-100 text-lg">
-                        Watch your money grow! Formula: I = P × R × T
-                    </p>
-                </div>
-
-                <div class="p-8 grid lg:grid-cols-12 gap-8">
-                    <!-- Sliders Area -->
-                    <div class="lg:col-span-4 space-y-6">
-                        <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 shadow-inner">
-                            <h3 class="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2">
-                                <i class="fa-solid fa-building-columns text-emerald-500"></i>
-                                Set Your Terms
-                            </h3>
-                            
-                            <div class="space-y-6">
-                                <div>
-                                    <label class="block text-sm font-bold text-slate-600 mb-1">Principal (Starting Amount)</label>
-                                    <div class="relative">
-                                        <span class="absolute left-3 top-3 text-slate-400 font-bold">₱</span>
-                                        <input type="number" id="int-principal-input" value="10000" min="0" class="w-full text-xl p-3 pl-8 border-2 border-slate-300 rounded-xl focus:border-emerald-500 outline-none">
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <label class="flex justify-between text-sm font-bold text-slate-600 mb-1">
-                                        <span>Interest Rate (Yearly)</span>
-                                        <span class="text-emerald-600 font-extrabold"><span id="int-rate-display">5</span>%</span>
-                                    </label>
-                                    <input type="range" id="int-rate-input" min="0" max="20" step="0.5" value="5" class="w-full h-3 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-emerald-500">
-                                </div>
-
-                                <div>
-                                    <label class="flex justify-between text-sm font-bold text-slate-600 mb-1">
-                                        <span>Time (Years)</span>
-                                        <span class="text-blue-500 font-extrabold"><span id="int-time-display">5</span> yrs</span>
-                                    </label>
-                                    <input type="range" id="int-time-input" min="1" max="20" step="1" value="5" class="w-full h-3 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-500">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Chart and Results Area -->
-                    <div class="lg:col-span-8 space-y-6">
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="bg-emerald-50 p-4 rounded-xl border border-emerald-200 text-center">
-                                <p class="text-sm font-bold text-emerald-700 uppercase tracking-wider mb-1">Total Interest Earned</p>
-                                <p class="text-3xl font-black text-emerald-600" id="int-earned-display">₱2500.00</p>
-                                <p class="text-xs text-emerald-600 mt-1 font-mono">I = <span id="int-f-p">10000</span> × <span id="int-f-r">0.05</span> × <span id="int-f-t">5</span></p>
-                            </div>
-                            <div class="bg-blue-50 p-4 rounded-xl border border-blue-200 text-center">
-                                <p class="text-sm font-bold text-blue-700 uppercase tracking-wider mb-1">Total Future Value</p>
-                                <p class="text-3xl font-black text-blue-600" id="int-total-display">₱12500.00</p>
-                                <p class="text-xs text-blue-600 mt-1 font-mono">Total = Principal + Interest</p>
-                            </div>
-                        </div>
-
-                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm h-72 relative w-full">
-                            <h4 class="text-sm font-bold text-slate-500 mb-2 text-center">Growth Over Time</h4>
-                            <div class="relative h-56 w-full">
-                                <canvas id="interestChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Mini Quiz Section -->
-                <div class="border-t border-slate-200 p-8 bg-slate-50 rounded-b-3xl">
-                    <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
-                        <span class="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-sm">Knowledge Check</span>
-                    </h3>
-                    <p class="text-slate-700 text-lg mb-6 font-medium">You put ₱5,000 in a savings account that earns 4% simple interest per year. How much interest will you earn after 3 years?</p>
-                    
-                    <div class="grid sm:grid-cols-2 gap-4 mb-6" id="quiz-interest-options">
-                        <button onclick="handleQuiz('interest', '₱200', false)" class="quiz-btn p-4 rounded-xl font-bold transition-all text-left flex justify-between items-center border-2 border-slate-200 bg-white hover:border-indigo-400 hover:bg-indigo-50 text-slate-700">₱200 <i class="icon hidden"></i></button>
-                        <button onclick="handleQuiz('interest', '₱600', true)" class="quiz-btn p-4 rounded-xl font-bold transition-all text-left flex justify-between items-center border-2 border-slate-200 bg-white hover:border-indigo-400 hover:bg-indigo-50 text-slate-700">₱600 <i class="icon hidden"></i></button>
-                        <button onclick="handleQuiz('interest', '₱5,600', false)" class="quiz-btn p-4 rounded-xl font-bold transition-all text-left flex justify-between items-center border-2 border-slate-200 bg-white hover:border-indigo-400 hover:bg-indigo-50 text-slate-700">₱5,600 <i class="icon hidden"></i></button>
-                        <button onclick="handleQuiz('interest', '₱120', false)" class="quiz-btn p-4 rounded-xl font-bold transition-all text-left flex justify-between items-center border-2 border-slate-200 bg-white hover:border-indigo-400 hover:bg-indigo-50 text-slate-700">₱120 <i class="icon hidden"></i></button>
-                    </div>
-                    
-                    <div id="quiz-interest-feedback" class="hidden p-4 rounded-xl border">
-                        <p class="font-bold mb-1" id="quiz-interest-title"></p>
-                        <p>Use I = P × R × T. Interest = 5000 × 0.04 × 3 = ₱600.</p>
-                        <button onclick="resetQuiz('interest')" class="mt-3 text-sm font-bold underline opacity-80 hover:opacity-100">Try Again</button>
-                    </div>
-                </div>
-            </div>
-
         </div>
-    </main>
 
-    <!-- Footer with Required Branding -->
-    <footer class="bg-slate-900 text-slate-400 p-6 text-center border-t border-slate-800">
-        <div class="max-w-6xl mx-auto">
-            <p class="font-semibold text-slate-200">©2016-2026 wedoIT™Solutions</p>
-            <p class="text-sm mt-1">Developed by raymindcreativez™</p>
+        <!-- Microsoft Edge Workspace Monitor -->
+        <div class="card">
+            <div class="label" style="color: var(--accent-purple);">Active Microsoft Edge Sites (Tabs)</div>
+            <ul class="site-list" id="edge-sites-list">
+                <!-- Dynamically Hydrated -->
+            </ul>
         </div>
-    </footer>
+    </div>
 
+    <script src="data.js"></script>
     <script>
-        // Formatting helper
-        const formatMoney = (amount) => {
-            return '₱' + parseFloat(amount).toFixed(2);
-        };
+        document.addEventListener("DOMContentLoaded", () => {
+            if (typeof systemData !== 'undefined') {
+                // Populate Identity & Metadata
+                document.getElementById('pc-name').textContent = systemData.pcName;
+                document.getElementById('user-name').textContent = systemData.userName;
+                document.getElementById('machine-id').textContent = systemData.uuid;
+                document.getElementById('time-stamp').textContent = systemData.lastUpdated;
 
-        // --- Tab Switching Logic ---
-        const tabConfigs = {
-            'discount': { bg: 'bg-rose-500', text: 'text-white', shadow: 'shadow-rose-200', defaultBg: 'bg-rose-100', defaultText: 'text-rose-700', border: 'border-rose-300' },
-            'commission': { bg: 'bg-amber-500', text: 'text-white', shadow: 'shadow-amber-200', defaultBg: 'bg-amber-100', defaultText: 'text-amber-700', border: 'border-amber-300' },
-            'interest': { bg: 'bg-emerald-500', text: 'text-white', shadow: 'shadow-emerald-200', defaultBg: 'bg-emerald-100', defaultText: 'text-emerald-700', border: 'border-emerald-300' }
-        };
+                // Process Battery Metrics
+                const levelStr = String(systemData.batteryLevel || '').trim();
+                const statusStr = String(systemData.batteryStatus || '').trim();
 
-        function switchTab(tabId) {
-            // Hide all modules
-            document.querySelectorAll('.module-content').forEach(el => el.classList.remove('active'));
-            // Show target module
-            document.getElementById(`module-${tabId}`).classList.add('active');
+                if (levelStr === "N/A" || !levelStr) {
+                    document.getElementById('battery-level').textContent = "AC Power Source Only";
+                    document.getElementById('battery-status').textContent = `(${statusStr})`;
+                } else {
+                    document.getElementById('battery-level').textContent = levelStr + "%";
+                    document.getElementById('battery-status').textContent = `| System State: ${statusStr}`;
 
-            // Reset all tab buttons
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                const id = btn.id.replace('tab-', '');
-                btn.className = `tab-btn flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-bold border-2 transition-all ${tabConfigs[id].defaultBg} ${tabConfigs[id].defaultText} ${tabConfigs[id].border} hover:bg-opacity-70`;
-            });
+                    const fillElement = document.getElementById('battery-fill');
+                    document.getElementById('battery-track').style.display = 'block';
+                    fillElement.style.width = levelStr + "%";
 
-            // Highlight active tab
-            const activeBtn = document.getElementById(`tab-${tabId}`);
-            activeBtn.className = `tab-btn flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-bold border-2 transition-all border-transparent shadow-lg scale-105 active ${tabConfigs[tabId].bg} ${tabConfigs[tabId].text} ${tabConfigs[tabId].shadow}`;
-            
-            // Re-render chart if switching to interest to fix canvas sizing issues
-            if(tabId === 'interest' && interestChartInstance) {
-                interestChartInstance.resize();
-            }
-        }
-
-        // --- Discount Logic ---
-        const discOrigInput = document.getElementById('discount-orig-input');
-        const discPctInput = document.getElementById('discount-pct-input');
-        
-        function calculateDiscount() {
-            const orig = parseFloat(discOrigInput.value) || 0;
-            const pct = parseFloat(discPctInput.value) || 0;
-            
-            const discountAmount = orig * (pct / 100);
-            const salePrice = orig - discountAmount;
-
-            document.getElementById('discount-pct-display').innerText = pct;
-            document.getElementById('receipt-orig').innerText = formatMoney(orig);
-            document.getElementById('receipt-pct').innerText = pct;
-            document.getElementById('receipt-disc-amt').innerText = "- " + formatMoney(discountAmount);
-            document.getElementById('receipt-sale').innerText = formatMoney(salePrice);
-
-            document.getElementById('expl-orig-1').innerText = orig;
-            document.getElementById('expl-dec').innerText = (pct/100).toFixed(2);
-            document.getElementById('expl-disc').innerText = discountAmount.toFixed(2);
-            document.getElementById('expl-orig-2').innerText = orig;
-            document.getElementById('expl-disc-2').innerText = discountAmount.toFixed(2);
-            document.getElementById('expl-sale').innerText = salePrice.toFixed(2);
-        }
-        
-        discOrigInput.addEventListener('input', calculateDiscount);
-        discPctInput.addEventListener('input', calculateDiscount);
-
-        // --- Commission Logic ---
-        const commPriceInput = document.getElementById('comm-price-input');
-        const commRateInput = document.getElementById('comm-rate-input');
-        const commTaxInput = document.getElementById('comm-tax-input');
-
-        function calculateCommission() {
-            const price = parseFloat(commPriceInput.value) || 0;
-            const rate = parseFloat(commRateInput.value) || 0;
-            const tax = parseFloat(commTaxInput.value) || 0;
-
-            const commission = price * (rate / 100);
-            const salesTax = price * (tax / 100);
-            const total = price + salesTax;
-
-            document.getElementById('comm-rate-display').innerText = rate;
-            document.getElementById('comm-tax-display').innerText = tax;
-
-            document.getElementById('comm-earned-display').innerText = formatMoney(commission);
-            document.getElementById('comm-formula-price').innerText = price;
-            document.getElementById('comm-formula-rate').innerText = (rate/100).toFixed(2);
-
-            document.getElementById('cust-price').innerText = formatMoney(price);
-            document.getElementById('cust-tax-pct').innerText = tax;
-            document.getElementById('cust-tax-amt').innerText = "+ " + formatMoney(salesTax);
-            document.getElementById('cust-total').innerText = formatMoney(total);
-        }
-
-        commPriceInput.addEventListener('input', calculateCommission);
-        commRateInput.addEventListener('input', calculateCommission);
-        commTaxInput.addEventListener('input', calculateCommission);
-
-        // --- Interest Logic & Chart ---
-        const intPrincipalInput = document.getElementById('int-principal-input');
-        const intRateInput = document.getElementById('int-rate-input');
-        const intTimeInput = document.getElementById('int-time-input');
-        let interestChartInstance = null;
-
-        function initChart() {
-            const ctx = document.getElementById('interestChart').getContext('2d');
-            interestChartInstance = new Chart(ctx, {
-                type: 'bar',
-                data: { labels: [], datasets: [] },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        x: { stacked: true, grid: { display: false } },
-                        y: { 
-                            stacked: true, 
-                            border: { display: false },
-                            ticks: { callback: function(value) { return '₱' + value; } }
-                        }
-                    },
-                    plugins: {
-                        legend: { position: 'top', labels: { usePointStyle: true, boxWidth: 8 } },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    let label = context.dataset.label || '';
-                                    if (label) { label += ': '; }
-                                    if (context.parsed.y !== null) { label += formatMoney(context.parsed.y); }
-                                    return label;
-                                }
-                            }
-                        }
+                    const levelNum = parseInt(levelStr, 10);
+                    if (levelNum <= 20) {
+                        fillElement.style.backgroundColor = '#ef4444';
+                    } else if (statusStr.toLowerCase().includes('charging')) {
+                        fillElement.style.backgroundColor = '#3b82f6';
                     }
                 }
-            });
-        }
 
-        function calculateInterest() {
-            const principal = parseFloat(intPrincipalInput.value) || 0;
-            const rate = parseFloat(intRateInput.value) || 0;
-            const time = parseInt(intTimeInput.value) || 0;
-
-            const interest = principal * (rate / 100) * time;
-            const total = principal + interest;
-
-            document.getElementById('int-rate-display').innerText = rate;
-            document.getElementById('int-time-display').innerText = time;
-
-            document.getElementById('int-earned-display').innerText = formatMoney(interest);
-            document.getElementById('int-total-display').innerText = formatMoney(total);
-            document.getElementById('int-f-p').innerText = principal;
-            document.getElementById('int-f-r').innerText = (rate/100).toFixed(2);
-            document.getElementById('int-f-t').innerText = time;
-
-            // Update Chart Data
-            if (interestChartInstance) {
-                const labels = [];
-                const principalData = [];
-                const interestData = [];
-                
-                for(let year = 0; year <= time; year++) {
-                    labels.push(`Year ${year}`);
-                    principalData.push(principal);
-                    interestData.push(principal * (rate/100) * year);
+                // Hydrate Edge Active Sites Workspace List
+                const listContainer = document.getElementById('edge-sites-list');
+                if (Array.isArray(systemData.edgeSites)) {
+                    systemData.edgeSites.forEach(siteTitle => {
+                        const li = document.createElement('li');
+                        li.className = 'site-item';
+                        li.textContent = siteTitle;
+                        li.title = siteTitle; 
+                        listContainer.appendChild(li);
+                    });
+                } else {
+                    const li = document.createElement('li');
+                    li.className = 'site-item';
+                    li.style.borderLeftColor = '#ef4444';
+                    li.textContent = systemData.edgeSites || "No active site data found.";
+                    listContainer.appendChild(li);
                 }
 
-                interestChartInstance.data.labels = labels;
-                interestChartInstance.data.datasets = [
-                    { label: 'Principal', data: principalData, backgroundColor: '#34d399', borderRadius: {bottomLeft: 4, bottomRight: 4} },
-                    { label: 'Interest', data: interestData, backgroundColor: '#fbbf24', borderRadius: {topLeft: 4, topRight: 4} }
-                ];
-                interestChartInstance.update();
-            }
-        }
-
-        intPrincipalInput.addEventListener('input', calculateInterest);
-        intRateInput.addEventListener('input', calculateInterest);
-        intTimeInput.addEventListener('input', calculateInterest);
-
-        // --- Mini Quiz Logic ---
-        function handleQuiz(module, selectedOptionText, isCorrect) {
-            const optionsContainer = document.getElementById(`quiz-${module}-options`);
-            const buttons = optionsContainer.querySelectorAll('button');
-            
-            // Disable all buttons and reset styles
-            buttons.forEach(btn => {
-                btn.disabled = true;
-                btn.className = "quiz-btn p-4 rounded-xl font-bold transition-all text-left flex justify-between items-center border-2 border-slate-200 bg-slate-50 text-slate-400 cursor-not-allowed";
-                btn.querySelector('.icon').className = "icon hidden";
-            });
-
-            // Find clicked button and the correct button
-            buttons.forEach(btn => {
-                const btnText = btn.innerText.trim();
-                const icon = btn.querySelector('.icon');
-                
-                if (btnText === selectedOptionText) {
-                    if (isCorrect) {
-                        btn.className = "quiz-btn p-4 rounded-xl font-bold transition-all text-left flex justify-between items-center border-2 border-green-500 bg-green-50 text-green-700";
-                        icon.className = "icon fa-solid fa-circle-check text-green-600 text-xl";
-                    } else {
-                        btn.className = "quiz-btn p-4 rounded-xl font-bold transition-all text-left flex justify-between items-center border-2 border-red-500 bg-red-50 text-red-700";
-                        icon.className = "icon fa-solid fa-circle-xmark text-red-600 text-xl";
-                    }
-                } 
-                // Highlight the correct one if they guessed wrong (needs data attributes in real app, but we check by text here for simplicity)
-                // For this hardcoded logic, we know the correct texts:
-                const correctAnswers = {
-                    'discount': '₱3,200',
-                    'commission': '₱75,000',
-                    'interest': '₱600'
-                };
-                if (!isCorrect && btnText === correctAnswers[module]) {
-                    btn.className = "quiz-btn p-4 rounded-xl font-bold transition-all text-left flex justify-between items-center border-2 border-green-500 bg-green-50 text-green-700 opacity-70";
-                }
-            });
-
-            // Show feedback
-            const feedbackBox = document.getElementById(`quiz-${module}-feedback`);
-            const feedbackTitle = document.getElementById(`quiz-${module}-title`);
-            
-            feedbackBox.classList.remove('hidden');
-            if (isCorrect) {
-                feedbackBox.className = "p-4 rounded-xl border bg-green-100 border-green-200 text-green-800 animate-in fade-in-zoom mt-6";
-                feedbackTitle.innerText = "Great Job!";
             } else {
-                feedbackBox.className = "p-4 rounded-xl border bg-red-100 border-red-200 text-red-800 animate-in fade-in-zoom mt-6";
-                feedbackTitle.innerText = "Not quite!";
+                document.getElementById('machine-id').textContent = "Configuration error. Please run the .bat launcher.";
             }
-        }
-
-        function resetQuiz(module) {
-            const optionsContainer = document.getElementById(`quiz-${module}-options`);
-            const buttons = optionsContainer.querySelectorAll('button');
-            
-            buttons.forEach(btn => {
-                btn.disabled = false;
-                btn.className = "quiz-btn p-4 rounded-xl font-bold transition-all text-left flex justify-between items-center border-2 border-slate-200 bg-white hover:border-indigo-400 hover:bg-indigo-50 text-slate-700 cursor-pointer";
-                btn.querySelector('.icon').className = "icon hidden";
-            });
-            
-            document.getElementById(`quiz-${module}-feedback`).classList.add('hidden');
-        }
-
-        // Initialize on load
-        window.onload = function() {
-            initChart();
-            
-            // Run initial calculations
-            calculateDiscount();
-            calculateCommission();
-            calculateInterest();
-            
-            // Ensure first tab is active correctly
-            switchTab('discount');
-        };
-
+        });
     </script>
 </body>
 </html>
